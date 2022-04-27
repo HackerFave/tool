@@ -1,0 +1,3 @@
+git remote set-url origin https://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@github.com/HackerFave/tool.git
+
+git push -u origin master
