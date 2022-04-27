@@ -1,0 +1,458 @@
+
+//7.6网关发送停止运行命令
+table Msg2050 {
+  id:ushort(id:0);                       //消息id
+  turn_off_cmd:ushort (id: 1);           //关机 保留
+  turn_off_cmd_reverse:ushort (id: 2);           //关机 保留
+}
+
+//7.8主控接收作业现场调度响应命令
+table Msg8306 {
+  id:ushort(id:0);           //消息id
+  self_vehicle_id:string(id:1);//辅助车辆设备号
+  target_id:string(id:2);//矿卡设备号
+  work_class:ubyte(id:3);//0x01: 装载作业   0x02: 卸载作业
+  cmd_flag:ubyte(id:4);//0x00: 0x01: 任务完成，可驶离0x02: 工位空闲，可驶入0x04: 紧急停车0x05: 停车后正常行驶0x06: 停车后人工驾驶0x07: 停车后退回重进0x08：开始卸载
+  load_status:ubyte(id:5);    //0x01: 空载状态  0x02: 满载状态  0x03: 半载状态
+  material_type:ushort (id: 6);           //物料类型
+  parking_lat:double (id: 7);//停靠点维度值，使用时*1e-7
+  parking_lng:double (id: 8);//停靠点经度值，使用时*1e-7
+  parking_head:double (id: 9);//停靠点航向角，使用时*0.1;
+  self_vehicle_name:string(id:10);//本车设备名称
+  target_name:string(id:11);//调度目标设备名称
+}
+
+//7.11主控接收营运状态变更设置
+table Msg8F02 {
+  id:ushort(id:0);                       //消息id
+  service_state_type:ubyte(id:1);//0x01: 就绪运行 0x02: 延时停运 0x03: 故障停运 0x04: 备用停运
+  service_delay_reason:ushort(id:2);//只有在延时申请/故障申请下有效，否则全零。详细定义参见第9节“设备故障/延时原因对照表”
+  time_delay:ushort(id:3);    //单位为秒(s)，只有在延时申请下有效，否则全零。
+}
+
+//7.18网关发送预警指令
+table Msg8401 {
+  id:ushort(id:0);           //消息id
+  target_id:string(id:1);//目标车辆设备号
+  warning_type:ubyte(id:2);//0x00:无预警信息0x01:前向碰撞预警0x02:会车预警0x03:盲区预警
+  distance:float(id:3);//目标车辆距离 单位米
+  collision_time:float(id:4);//预计碰撞时间 单位秒
+  vehicle_type:ubyte(id:5);    //目标车辆类型0X51：矿卡0X52：电铲0X53:推土机0X54：挖掘机0X55：道路采集车0X56：洒水车0X57：平地机0X5f:外来小车
+  length:float (id: 6);           //车长
+  width:float (id: 7);//车宽
+  height:float (id: 8);//车高
+  lat:double (id: 9);//当前纬度值
+  lng:double(id:10);//当前经度值
+  head:float(id:11);//当前航向值
+  speed:float (id: 12);           //以m/s为单位，车辆速度
+  east_speed:float (id: 13);//目标车辆东向速度
+  north_speed:float (id: 14);//目标车辆北向速度
+  front_angle:float (id: 15);//前轮转角 以度为单位
+  road_id:ushort(id:16);//目标车辆道路编号
+  road_direction:ubyte(id:17);//0x00: 预留 0x01: up0x02: down
+  gps_time:ulong(id:18);//UTC时间 时间戳秒时间*1000+毫秒数
+  dname:string(id:19); //设备名称
+}
+
+//7.20网关发送主控调度任务应答
+//任务调度结果,0x01: 成功 0x02: 调度目标规划失败 0x03: 目标路径规划失败
+enum TaskDispatchResult : ubyte {Unknown = 0,Success = 1,TargetFailed = 2,RoadFailed = 3}
+
+//从网关下载任务文件结果.1 下载成功, 2 失败 ,3 解压失败
+enum TaskFileDownloadResult : ubyte {Unknown = 0,Success = 1,DownloadFailed = 2,ExtractFailed = 3}
+
+table Msg8F0C {
+  id:ushort(id:0);           //消息id
+  task_type:ubyte(id:1);    //调度目标任务类型
+  task_num:ushort(id:2);    //任务编号
+  task_dispatch_result:TaskDispatchResult(id:3);    //调度结果
+  //task_file_download_result:TaskFileDownloadResult(id:4);
+  task_target_imei:string(id:4);  //调度目标设备识别码 对端IMEI号，15个字节，不足后面补零
+  task_file_md5:string(id:5);      //文件摘要 32个字节
+  targetDevName:string(id:6);       //设备名称 设备目标文件名称，20个字节，不足后面补零，在电铲移动任务时，是采掘面名称
+  siteId:ushort(id:7);  //站点ID 矿卡任务请调不需要处理，0xffff表示不存在
+  task_file_name:string(id:8);  //路径规划文件名 长度为39
+}
+
+//7.21网关发送主控临时任务变更
+table Msg8F0D {
+  id:ushort(id:0);           //消息id
+  task_modify_type:ubyte(id:1);//0x01: 装载任务 0x02: 卸载任务0x03: 收车任务
+}
+
+//7.22网关发送主控空满载设置
+table Msg8403 {
+  id:ushort(id:0);           //消息id
+  load_status_from_hmi:ubyte(id:1);//0x01：空载装载状态0x02：满载卸载状态0x03：半载卸载状态0x04：空载卸载状态
+}
+
+//7.28 行车许可下发 
+table MovementAuthority {
+  road_id:ushort(id:0);//车道编号
+  iLatitude:double(id:1);//车道上行车许可末端点坐标纬度
+  iLongitude:double(id:2);//车道上行车许可末端点坐标经度
+  task_file_name:string(id:3);  //压缩包名称
+  task_file_path:string(id:4);  //压缩包解压后存放目录
+  terminal:uint (id: 5);//车道上行车许可末端点在路径文件中位置点序号
+  task_file_download_result:TaskFileDownloadResult(id:6);
+  task_file_md5:string(id:7);   
+}
+
+//网关发送主控行车许可命令
+table Msg8F0F {
+  id:ushort(id:0);           //消息id
+  length:ubyte(id:1);//路权列表长度
+  move_authority:[MovementAuthority](id:2);//路权列表长度
+}
+
+//网关发送主控区域边界文件
+table Msg8F10 {
+  id:ushort(id:0);           //消息id
+  task_num:ushort(id:1);//任务编号
+  boundary_file_md5:string(id:2);  //区域边界文件MD5
+  boundary_file_name:string(id:3);  //区域边界文件名称
+  //task_file_download_result:TaskFileDownloadResult(id:4);
+}
+
+//网关发送HMI平台回复接收运营状态变更的通用应答
+table Msg8C01 {
+  serialNum:ushort(id:0);
+  cmdId:ushort(id:1);
+  result:ubyte(id:2);
+}
+
+table Msg8F04 {
+  materCode:ushort(id:0);//物料编码
+}
+
+table Msg8F0A {
+    fileType:ubyte(id:0);
+    fileArea:ubyte(id:1);
+    result:ubyte(id:2);
+    targetImei:string(id:3);
+    md5:string(id:4);
+    targetDevName:string(id:5);
+    filePath:string(id:6);
+}
+
+struct WarningArray {
+  warning:[ubyte:16];
+}
+
+table Msg8F09 {
+  remoteid:ubyte(id: 0);
+}
+
+table GroupStatusList {
+    type:ubyte(id:0);/* 0x00 unkonw, 0x01 stop, 0x02 stop group */
+    groupNumber:ushort(id:1);
+    stopNumber:ushort(id:2);
+    stop_group_status:ubyte(id:3);
+    isOccupied:ubyte(id:4);
+    task_status:ubyte(id:5);
+    drivingMode:ubyte(id:6);
+    deviceImei:string(id:7);
+    deviceName:string(id:8);
+}
+
+//网关发送主控行车许可命令
+table Msg8B01 {
+  fileName:string(id:0);           //消息id
+  md5:string(id:1);//路权列表长度
+  listNum:ushort(id:2);
+  List:[GroupStatusList](id:3);//路权列表长度
+}
+
+table GroupStatusList_WaitInLine {
+    taskStat:ubyte(id:0);
+    drivingMode:ubyte(id:1);
+    deviceImei:string(id:2);
+    deviceName:string(id:3);
+}
+
+//网关发送主控行车许可命令
+table Msg8B03 {
+  listNum:ushort(id:0);
+  List:[GroupStatusList_WaitInLine](id:1);
+}
+
+table Msg8307{
+  src_devID:string (id:0);
+  src_devNA:string (id:1);
+  work_type:ubyte (id:2);
+  oper_type:ubyte (id:3);
+  load_status:ubyte(id:4);
+  mate_type:ushort(id:5);
+  stop_pos_num:ushort(id:6);
+  time:uint64(id:7);
+}
+
+table Msg8308{
+  src_devID:string (id:0);
+  src_devNA:string (id:1);
+  work_type:ubyte (id:2);
+  oper_type:ubyte (id:3);
+  time:uint64(id:4);
+}
+
+table Msg0F21{
+  work_type:ubyte (id:0);
+  oper_type:ubyte (id:1);
+  time:uint64(id:2);
+}
+
+table Msg0503{  //CCU、CLOUD会发送 HMI接收
+  module_type:ubyte(id:0);
+  state:ubyte(id:1);
+  time:uint64(id:2);
+}
+
+table Msg8105{
+  result:ubyte (id:0);
+}
+
+table Msg8B10{
+  result:ubyte (id:0);
+  name:string(id:1);
+}
+
+table Msg8B11{
+  result:ubyte (id:0);
+}
+
+table Msg0F0B{
+  result:ubyte (id:0);
+}
+
+//vector
+table MsgVector{
+  vectormsg:[ubyte](id:0);
+}
+
+table MsgVoiceName{
+  voiceName:string(id:0);
+}
+//进程消息 原dbus信号GnssBroadcastData
+// table MsgGnssBroadcastData{
+//   flag:ubyte = 3(id:0);//
+//   latitude:double = 0.0(id:1);//
+//   longitude:double = 0.0(id:2);//
+//   height:float = 0.0(id:3);
+//   speed:float = 0.0(id:4);
+//   maxSpeed:float = 0.0(id:5);
+//   heading:float = 0.0(id:6);
+//   wheelAngle:float = 0.0(id:7);
+//   accX:float = 0.0(id:8);
+//   accY:float = 0.0(id:9);
+//   accZ:float = 0.0(id:10);
+//   speedEast:float = 0.0(id:11);
+//   speedNorth:float = 0.0(id:12);
+//   utcTime:ulong(id:13);
+// }
+
+//主控发送V2V道路信息
+// table Msg0203 {
+//   roadNum:ushort;    // 车道编号
+//   distance:float;  // 当前车道剩余距离
+//   runState:ubyte;    //  运行状态 0x01： 停车 0x02：运行
+//   stopReason:ushort; // 停车原因
+// }
+
+//网关发送IMEI、设备名称、日志上传地址。取代原来相同的的8002（HMI）与1040（CCU）
+table Msg1040 {
+  imei:string;           // IMEI
+  objName:string;        // 设备名称
+  uploadAddr:string;    //  日志上传地址
+}
+
+//主控发送V2V现场调度请求命令 //HMI与V2X订阅此消息
+table Msg0305{
+  truckImei:[ubyte];
+  auxImei:[ubyte];
+  truckName:[ubyte];
+  auxName:[ubyte];
+  workType:ubyte;
+  optType:ubyte;
+  utcTime:ulong;
+}
+
+// table Msggnss{
+//   flag:ubyte = 3;
+//   latitude:double = 0.0;
+//   longitude:double = 0.0;
+//   height:float = 0.0;
+//   speed:float = 0.0;
+//   maxSpeed:float = 0.0;
+//   heading:float = 0.0;
+//   wheelAngle:float = 0.0;
+//   accX:float = 0.0;
+//   accY:float = 0.0;
+//   accZ:float = 0.0;
+//   speedEast:float = 0.0;
+//   speedNorth:float = 0.0;
+//   utcTime:ulong;
+// }
+
+table Msg8305_V2X {
+  auxImei:[ubyte];
+  auxName:[ubyte];
+  truckImei:[ubyte];
+  truckName:[ubyte];
+  workType:ubyte;
+  optType:ubyte;
+  loadState:ubyte;
+  materNum:ushort;
+  stopPosNum:ushort;
+  utcTime:ulong;
+}
+
+//Hmi生成文件后，需要车上传平台，通过该命令将文件上传网关
+table Msg8F0B{
+      id:ushort(id:0);                   //消息id
+      file_type:ubyte(id:1);       //0x01: 任务文件  0x02: 道路文件  0x03:全局地图文件  0x04:边界采集地图文件
+      file_area:ubyte(id:2);        //0x00:无  0x01:装载区  0x02:卸载区
+      file_result:ubyte(id:3);       //0x00:通用失败  0x01:成功
+      file_MD5:string(id:4);      //文件摘要 32个字节
+      file_name:string(id:5);      //文件上传名称，长度39
+}
+
+//HMI触发日志上传
+table Msg0502{
+      id:ushort(id:0);                    //消息id
+      trigger_type:ubyte(id:1);    //0x01: 未知  0x02: HMI点击屏幕按键触发  0x02:平台触发  0x03:CCU触发  0x04:自动触发
+}
+
+//HMI发送网关营运状态变更请求命令
+table Msg0F01{
+      id:ushort(id:0);                    //消息id
+      work_type:ubyte(id:1);       //0x01: 就绪运行  0x02: 延时停运  0x03: 故障停运  0x04: 备用停运
+      delayed_fault_reason:ushort(id:2);         //只有在延时申请/故障申请下有效，否则全零。
+      delayed_time:ushort(id:3);         //单位为秒(s)，只有在延时申请下有效，否则全零。
+}
+
+struct apply_numberArray {
+  apply_number:[ubyte:8];
+}
+
+//HMI触发消除故障标志
+//CCU决策部分需要改
+table Msg0F0E{
+      id:ushort(id:0);                    //消息id
+      apply_number:[ubyte](id:1);      //8字节 Web客户端操作申请序号(hmi发送0x00000000)
+      clear_fault:ubyte(id:2);        //0x00:故障开关设置  0x01:消除所有故障  0x10:查询故障标识
+      warning:[ubyte](id:3);         //16字节故障诊断的打开/关闭标志
+      sourceflag:ubyte(id:4);           //数据触发源：0x01：cloud    0x02：HMI
+}
+
+//HMI触发测试任务
+table Msg0F1C{
+      id:ushort(id:0);                    //消息id
+      test_type:ubyte(id:1);    //0x01: 动态测试任务  0x02: 静态测试任务
+}
+
+struct passwordArray {
+  password:[ubyte:6];
+}
+
+//HMI触发登录
+table Msg0F10{
+      id:ushort(id:0);                    //消息id
+      number:ushort(id:1);                  //账号
+      password:[ubyte](id:2);         //密码 大小为6
+}
+
+//HMI触发登出
+table Msg0F11{
+      id:ushort(id:0);                    //消息id
+}
+// --> BEGIN added by ZJZ, 2021/6/3
+
+
+//新增hmi -->post数据
+// --> BEGIN added by ZJZ, 2021/6/3
+
+// 说明：服务器参数查询，消息体为空
+// 适配：所有车辆
+table MsgTx_0104 {
+}
+
+// 说明：物料变更申请
+// 适配：辅助车辆-电铲
+table MsgTx_0F03 {
+      material:ushort(id:0);
+}
+
+// 说明：行车报警
+// 适配：矿卡/宽体车
+table MsgTx_0F09 {
+      warn_type:ubyte(id:0);
+      lane_num:ushort(id:1);
+}
+
+// 说明：作业场调度控制命令上报
+// 适配：辅助车辆-电铲
+table MsgTx_8305 {
+      remote_imei:string(id:0);
+      remote_name:string(id:1);
+      task_type:ubyte(id:2);
+      cmd_type:ubyte(id:3);
+      load_status:ubyte(id:4);
+      material_type:ushort(id:5);
+      stop_num:ushort(id:6);
+      utcTime:ulong(id:7);
+}
+
+// 说明：发送digger就位命令
+// 适配：辅助车辆-推土机digger
+table MsgTx_8B02 {
+      latitude:double(id:0);
+      longitude:double(id:1);
+}
+
+// 装载区停靠位位置上报：分组信息
+table MsgTx_8B07_list{
+    num:ushort(id:0);
+    latitude:double(id:1);
+    longitude:double(id:2);
+    heading:float(id:3);
+}
+
+// 说明：装载区停靠位位置上报
+// 适配：辅助车辆-电铲
+table MsgTx_8B07 {
+      list_num:ushort(id:0);
+      List:[MsgTx_8B07_list](id:1);
+}
+
+// 装载区停靠位状态操作指令上报；分组信息
+table MsgTx_8B08_list {
+    num:ushort(id:0);
+    status:ubyte(id:1);
+}
+
+// 说明：装载区停靠位状态操作指令上报
+// 适配：辅助车辆-电铲
+table MsgTx_8B08 {
+      list_num:ushort(id:0);
+      List:[MsgTx_8B08_list](id:1);
+}
+
+//HMI发出的心跳 5S一包
+table MsgTx_0002 {
+}
+
+//CGU版本号
+table MsgCguVersion{
+  product_type:ubyte(id:0);
+  vehicle_type:ubyte(id:1);
+  module_type:ubyte(id:2);
+  data1:ubyte(id:3);
+  data2:ubyte(id:4);
+  data3:ubyte(id:5);
+}
+
+//源0200的报警标志字段 单独发 HMI用
+//16个字节
+table MsgVechWarnStat{
+    Warning:[ubyte](id:0);
+}

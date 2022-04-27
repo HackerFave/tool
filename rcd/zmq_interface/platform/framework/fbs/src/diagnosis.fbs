@@ -1,0 +1,21 @@
+﻿// diagnosis_output.fbs
+
+namespace diagnosis;
+
+struct Warning {
+  warn_data1:ulong (id: 0);  // 输出的故障码联合体1
+  warn_data2:ulong (id: 1);  // 输出的故障码联合体2
+}
+
+struct FaultArray {
+  fault_array:[ubyte:16];
+}
+
+table WarningOutput {
+  warn:Warning (id: 0);
+  fault_open:FaultArray(id:1);
+}
+
+root_type WarningOutput;
+
+file_identifier "FACO";

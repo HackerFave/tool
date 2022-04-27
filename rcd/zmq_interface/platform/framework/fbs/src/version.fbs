@@ -1,0 +1,11 @@
+﻿namespace ver;
+
+//版本号定义(参照: 版本号使用说明.xlsx)
+table MsgVersion{
+  product_type:ubyte(id:0);
+  vehicle_type:ubyte(id:1);
+  module_type:ubyte(id:2);
+  func_vary_version:ubyte(id:3);
+  func_perf_version:ubyte(id:4);
+  bug_fix_version:ubyte(id:5);
+}
