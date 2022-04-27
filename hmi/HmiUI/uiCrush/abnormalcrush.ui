@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AbnormalCrush</class>
+ <widget class="QWidget" name="AbnormalCrush">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>520</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QPushButton" name="abnormalRecoveryBtn">
+   <property name="geometry">
+    <rect>
+     <x>281</x>
+     <y>21</y>
+     <width>70</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>70</width>
+     <height>70</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>70</width>
+     <height>70</height>
+    </size>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="abnormalRecoveryBtnLabel">
+   <property name="geometry">
+    <rect>
+     <x>281</x>
+     <y>91</y>
+     <width>70</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>70</width>
+     <height>28</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>70</width>
+     <height>28</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>恢复行车</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="abnormalManBtnLabel">
+   <property name="geometry">
+    <rect>
+     <x>31</x>
+     <y>91</y>
+     <width>70</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>70</width>
+     <height>28</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>70</width>
+     <height>28</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>人工接管</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="abnormalManBtn">
+   <property name="geometry">
+    <rect>
+     <x>31</x>
+     <y>21</y>
+     <width>70</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>70</width>
+     <height>70</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>70</width>
+     <height>70</height>
+    </size>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="abnormalClearListBtn">
+   <property name="geometry">
+    <rect>
+     <x>401</x>
+     <y>21</y>
+     <width>70</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>70</width>
+     <height>70</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>70</width>
+     <height>70</height>
+    </size>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="abnormalClearListBtnLabel">
+   <property name="geometry">
+    <rect>
+     <x>401</x>
+     <y>91</y>
+     <width>70</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>70</width>
+     <height>28</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>70</width>
+     <height>28</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>清除队列</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="abnormalRestopBtnLabel">
+   <property name="geometry">
+    <rect>
+     <x>151</x>
+     <y>91</y>
+     <width>70</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>70</width>
+     <height>28</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>70</width>
+     <height>28</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>重新停靠</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="abnormalRestopBtn">
+   <property name="geometry">
+    <rect>
+     <x>151</x>
+     <y>21</y>
+     <width>70</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>70</width>
+     <height>70</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>70</width>
+     <height>70</height>
+    </size>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <zorder>abnormalRecoveryBtn</zorder>
+  <zorder>abnormalRecoveryBtnLabel</zorder>
+  <zorder>abnormalManBtnLabel</zorder>
+  <zorder>abnormalManBtn</zorder>
+  <zorder>abnormalClearListBtn</zorder>
+  <zorder>abnormalClearListBtnLabel</zorder>
+  <zorder>abnormalRestopBtn</zorder>
+  <zorder>abnormalRestopBtnLabel</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
