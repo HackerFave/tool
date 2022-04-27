@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/tg_sign.dir/tg_sign_autogen/mocs_compilation.cpp.o CMakeFiles/tg_sign.dir/main.cpp.o  -o tg_sign  /usr/lib/x86_64-linux-gnu/libQt5Core.so.5.12.8 
