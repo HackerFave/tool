@@ -1,0 +1,52 @@
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/tc/work/CGU/sign_XinChangcheng/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_02c38/fast"
+/usr/bin/make -f CMakeFiles/cmTC_02c38.dir/build.make CMakeFiles/cmTC_02c38.dir/build
+make[1]: 进入目录“/home/tc/work/CGU/sign_XinChangcheng/build/CMakeFiles/CMakeTmp”
+Building CXX object CMakeFiles/cmTC_02c38.dir/CheckSymbolExists.cxx.o
+/opt/fsl-framebuffer/2.4.4/sysroots/x86_64-fslsdk-linux/usr/bin/arm-fsl-linux-gnueabi/arm-fsl-linux-gnueabi-g++   -march=armv7-a -marm -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a9 --sysroot=/opt/fsl-framebuffer/2.4.4/sysroots/cortexa9hf-neon-fsl-linux-gnueabi    -O2 -pipe -feliminate-unused-debug-types     -o CMakeFiles/cmTC_02c38.dir/CheckSymbolExists.cxx.o -c /home/tc/work/CGU/sign_XinChangcheng/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
+Linking CXX executable cmTC_02c38
+/opt/fsl-framebuffer/2.4.4/sysroots/x86_64-fslsdk-linux/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_02c38.dir/link.txt --verbose=1
+/opt/fsl-framebuffer/2.4.4/sysroots/x86_64-fslsdk-linux/usr/bin/arm-fsl-linux-gnueabi/arm-fsl-linux-gnueabi-g++   -march=armv7-a -marm -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a9 --sysroot=/opt/fsl-framebuffer/2.4.4/sysroots/cortexa9hf-neon-fsl-linux-gnueabi   -O2 -pipe -feliminate-unused-debug-types    -Wl,-O2 -Wl,--hash-style=gnu -Wl,--as-needed  CMakeFiles/cmTC_02c38.dir/CheckSymbolExists.cxx.o  -o cmTC_02c38 
+CMakeFiles/cmTC_02c38.dir/CheckSymbolExists.cxx.o：在函数‘main’中：
+CheckSymbolExists.cxx:(.text.startup+0x0)：对‘pthread_create’未定义的引用
+CheckSymbolExists.cxx:(.text.startup+0x4)：对‘pthread_create’未定义的引用
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_02c38.dir/build.make:98：cmTC_02c38] 错误 1
+make[1]: 离开目录“/home/tc/work/CGU/sign_XinChangcheng/build/CMakeFiles/CMakeTmp”
+make: *** [Makefile:126：cmTC_02c38/fast] 错误 2
+
+File /home/tc/work/CGU/sign_XinChangcheng/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/tc/work/CGU/sign_XinChangcheng/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_2bcbc/fast"
+/usr/bin/make -f CMakeFiles/cmTC_2bcbc.dir/build.make CMakeFiles/cmTC_2bcbc.dir/build
+make[1]: 进入目录“/home/tc/work/CGU/sign_XinChangcheng/build/CMakeFiles/CMakeTmp”
+Building CXX object CMakeFiles/cmTC_2bcbc.dir/CheckFunctionExists.cxx.o
+/opt/fsl-framebuffer/2.4.4/sysroots/x86_64-fslsdk-linux/usr/bin/arm-fsl-linux-gnueabi/arm-fsl-linux-gnueabi-g++   -march=armv7-a -marm -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a9 --sysroot=/opt/fsl-framebuffer/2.4.4/sysroots/cortexa9hf-neon-fsl-linux-gnueabi    -O2 -pipe -feliminate-unused-debug-types  -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_2bcbc.dir/CheckFunctionExists.cxx.o -c /home/tc/work/CGU/sign_XinChangcheng/build/CMakeFiles/CheckLibraryExists/CheckFunctionExists.cxx
+Linking CXX executable cmTC_2bcbc
+/opt/fsl-framebuffer/2.4.4/sysroots/x86_64-fslsdk-linux/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2bcbc.dir/link.txt --verbose=1
+/opt/fsl-framebuffer/2.4.4/sysroots/x86_64-fslsdk-linux/usr/bin/arm-fsl-linux-gnueabi/arm-fsl-linux-gnueabi-g++   -march=armv7-a -marm -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a9 --sysroot=/opt/fsl-framebuffer/2.4.4/sysroots/cortexa9hf-neon-fsl-linux-gnueabi   -O2 -pipe -feliminate-unused-debug-types  -DCHECK_FUNCTION_EXISTS=pthread_create  -Wl,-O2 -Wl,--hash-style=gnu -Wl,--as-needed  CMakeFiles/cmTC_2bcbc.dir/CheckFunctionExists.cxx.o  -o cmTC_2bcbc -lpthreads 
+/opt/fsl-framebuffer/2.4.4/sysroots/x86_64-fslsdk-linux/usr/libexec/arm-fsl-linux-gnueabi/gcc/arm-fsl-linux-gnueabi/7.3.0/real-ld: 找不到 -lpthreads
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_2bcbc.dir/build.make:98：cmTC_2bcbc] 错误 1
+make[1]: 离开目录“/home/tc/work/CGU/sign_XinChangcheng/build/CMakeFiles/CMakeTmp”
+make: *** [Makefile:126：cmTC_2bcbc/fast] 错误 2
+
+

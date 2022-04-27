@@ -1,0 +1,76 @@
+邮箱：chuang.tan@i-tage.com
+密码：15592073186@jixie
+git账户：chuang.tan@i-tage.com
+密码：15592073186@jixie
+svn账户：tanchuang
+密码：tanchuang661
+
+svn链接：
+https://svn.i-tage.com/svn/TOOLS/HMI_SYS_DPL
+https://svn.i-tage.com/svn/网联技术与工程化开发部
+
+远程tbox ：ssh -p 50286 tbox@jump.i-tage.com（只有矿区可以域名）(在北京：ssh tbox@192.168.30.106)
+连接车辆网关：执行上述步骤之后---> ./connectTbox huolinhe --online(查询当前在线车辆)  ./connectTbox huolinhe dian67（连接dian67车）
+
+拷贝程序到tbox ：1.首先拷贝程序到tbox  scp -P 50286 demo_app  tbox@jump.i-tage.com:/home/tbox   2.连接上车辆之后 scp tbox@jump.i-tage.com:/home/tbox/demo_app /home/work -P 50286 （从tbox拷贝程序到网关）
+
+配置服务器：ZCuIrz6FMDdd3w1GOT
+
+vpn账户：谭创 密码：F&WELRr1KZ%&aEdl
+
+cd /dev (软链接创建)
+
+联调驾驶舱：
+ 修改网关文件 cat /etc/embedsky_conf (route add -host 39.153.142.87 gw 192.168.20.20 dev eth0 )//公网地址添加
+查询当前显卡信息：
+lshw -c video
+
+//配置Fast-DDS-statistics-backend
+git clone https://github.com/eProsima/Fast-DDS-statistics-backend.git
+cd Fast-DDS-statistics-backend
+mkdir build 
+cmake ..  -DCMAKE_INSTALL_PREFIX=~/Fast-DDS/install -DCMAKE_PREFIX_PATH=~/Fast-DDS/install 
+cmake --build . --target install
+
+qt5.14之后不提供离线安装包，在线安装需要许可，所以需要采用源码安装的方式，这里我们安装qt5.15.0 
+官网下载源码包 （https://download.qt.io/archive/qt/5.15/5.15.0/single/qt-everywhere-src-5.15.0.tar.xz） 
+1. 安装依赖：
+sudo apt-get install gcc
+sudo apt-get install gedit
+sudo apt-get install flex
+sudo apt-get install bison
+sudo apt-get install gperf
+sudo apt-get install libxcb*
+sudo apt-get install build-essential
+sudo apt-get install libgl1-mesa-dev
+sudo apt-get install libglu1-mesa-dev
+sudo apt-get install libegl1-mesa-dev
+sudo apt-get install freeglut3-dev
+sudo apt-get install libxkbcommon-x11-dev
+sudo apt-get install libxkbcommon-dev
+sudo apt-get install libxrender-dev
+sudo apt-get install libx11-dev
+sudo apt-get install libx11-xcb-dev
+
+2.安装完解压文件
+cd /home/tc/qt5.15.0/qt-everywhere-src-5.15.0
+
+./configure -xcb -DCMAKE_INSTALL_PREFIX=/usr/local/qt5.15.0 -DCMAKE_PREFIX_PATH=/usr/local/qt5.15.0
+
+配置提示依次输入 “o”  “y”
+make -j8（编译前安装python sudo apt install python3-pip ）
+sudo make install
+
+卸载：sudo make uninstall
+
+安装完成后qtcreator中配置qmake 5.15.0
+
+sudo gedit ~/.bashrc （配置qt）
+export QTDIR=/usr/local/Qt-5.15.0
+export PATH=QTDIR/bin:QTDIR/bin:QTDIR/bin:PATH
+export MANPATH=QTDIR/man:QTDIR/man:QTDIR/man:MANPATH
+export LD_LIBRARY_PATH=QTDIR/lib:QTDIR/lib:QTDIR/lib:LD_LIBRARY_PATH
+export QT_SELECT=qt-5.15.0
+ 
+
+
