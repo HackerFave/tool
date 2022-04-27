@@ -1,3 +1,6 @@
 git remote set-url origin https://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@github.com/HackerFave/tool.git
 
 git push -u origin master
+
+
+git filter-branch --force --index-filter 'git rm -rf --cached --ignore-unmatch rcd/RcdUi/config/HDMap.db' --prune-empty --tag-name-filter cat -- --all
