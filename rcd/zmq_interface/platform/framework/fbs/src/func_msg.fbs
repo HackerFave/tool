@@ -1,9 +1,0 @@
-table FuncCloudGetAllDevName{
-  local_name:string;
-  remote_target_name:string;
-}
-
-table FuncMsg{
-    func_name:string;
-    data:[ubyte];
-}
