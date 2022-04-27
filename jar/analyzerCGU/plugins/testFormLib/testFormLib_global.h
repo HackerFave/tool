@@ -1,0 +1,12 @@
+#ifndef TESTFORMLIB_GLOBAL_H
+#define TESTFORMLIB_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(TESTFORMLIB_LIBRARY)
+#  define TESTFORMLIB_EXPORT Q_DECL_EXPORT
+#else
+#  define TESTFORMLIB_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // TESTFORMLIB_GLOBAL_H
